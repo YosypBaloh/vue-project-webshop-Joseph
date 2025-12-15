@@ -1,58 +1,92 @@
 <template>
     <div class="header">
-      <span class="logo">{{ title }}</span>
-      <span class="user">{{ fullName }} ({{ user.rating }})</span>
-      <button @click="addRating">+</button>
+        <span class="logo">{{ title }}</span>
+        
+        <span class="right-side">
+            <span class="user">{{ fullName }} ({{ user.rating }})</span>
+            <button @click="addRating">+</button>
+        </span>
     </div>
 </template>
 
 <script>
 export default {
-  data() {
-      return {
-        user: {
-          name: 'Timcsi',
-          surname: 'Balog',
-          age:'20',
-          rating: 0,
-          email: 'john@doe.com',
-          },
+    data() {
+        return {
+            user: {
+                name: 'Timcsi',
+                surname: 'Balog',
+                age:'20',
+                rating: 0,
+                email: 'john@doe.com',
+            },
+            allRating: 0
         };
-      },
-computed: {
-    fullName(){
-      return `Szia, ${this.user.name} ${this.user.surname}`;
     },
-},
-methods:{
-  addRating(){
-    this.user.rating++;
-  }
-},
-   props: {
-    title: {
-      type: String,
-      required: true,
-   },
-  },
-};
+    computed: {
+        fullName(){
+            return `Szia, ${this.user.name} ${this.user.surname}`;
+        },
+    },
+    methods:{
+        addRating(){
+            this.user.rating++;
+            this.allRating++;
+        }
+    },
+    mounted() {
+      this.addRating();
+    },
 
+    watch: {
+      allRating(newValue, oldValue) {
+        if (newValue > 5) console.log(`${newValue} - ${oldValue}`);
+      },
+    },
+
+    props: {
+        title: {
+            type: String,
+            required: true,
+        },
+    },
+};
 </script>
 
 <style lang='css' scoped>
-  .header {
+.header {
     background: #FFC5CB;
     color:#502B7B;
     padding: 20px;
     border-bottom: 2px solid #502B7B;
-  }
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-  .header .logo {
+.header .logo {
     font-size: 20px;
-  }
+}
 
-  .header .user {
-    float: right;
-  }
+.header .right-side {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
 
+.header button {
+    border: 0;
+    background: #d6989e;
+    border-radius: 7px;
+    padding: 5px 7px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header button:hover {
+    background: #502B7B;
+    color: #FFC5CB;
+}
 </style>
