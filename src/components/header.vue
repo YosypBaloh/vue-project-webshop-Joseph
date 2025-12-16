@@ -56,10 +56,10 @@ export default {
 
 <style lang='css' scoped>
 .header {
-    background: #FFC5CB;
-    color:#502B7B;
+    background: #333;
+    color:#fff;
     padding: 20px;
-    border-bottom: 2px solid #502B7B;
+    border-bottom: 2px solid #000;
     
     display: flex;
     justify-content: space-between;
@@ -78,7 +78,7 @@ export default {
 
 .header button {
     border: 0;
-    background: #d6989e;
+    background: lightgray;
     border-radius: 7px;
     padding: 5px 7px;
     font-size: 14px;
@@ -87,7 +87,7 @@ export default {
 }
 
 .header button:hover {
-    background: #502B7B;
-    color: #FFC5CB;
+    background: #000;
+    color: #fafafa;
 }
 </style>
