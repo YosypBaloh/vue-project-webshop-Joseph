@@ -1,13 +1,15 @@
 <template>
     <Header title = "BestDresses"/>
+    <Articles />
 </template>
 
 <script>
 import Header from './components/Header.vue';
+import Articles from './components/articles.vue';
 
 export default {
     components: {
-        Header,
+        Header, Articles
     },
 };
 
@@ -19,6 +21,10 @@ export default {
     padding: 0;
     box-sizing: border-box;
 
+}
+
+body {
+    background: #d6989e;
 }
     
 </style>
