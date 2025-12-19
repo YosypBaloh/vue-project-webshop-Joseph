@@ -1,10 +1,10 @@
 <template>
  <form @submit.prevent="createPost" :class="{ error: maxCharacters > 20 }">
             <label for="title">A bejegyzés címe:</label>
-            <input v-model="userTitleInput" type="text" placeholder="írja ide a szöveget" id="title"/>
+            <input v-model="state.userTitleInput" type="text" placeholder="írja ide a szöveget" id="title"/>
             <label for="text">Fő szöveg:<span>{{ maxCharacters }} / 20</span>
             </label>
-            <textarea v-model="userTextInput" 
+            <textarea v-model="state.userTextInput" 
             id="text" 
             placeholder="írja ide a szöveget"
             ></textarea>
@@ -13,33 +13,36 @@
 </template>
 
 <script>
+import { reactive, computed } from 'vue';
+
 export default {
     name: 'Articles',
-    data() {
-        return{
+
+    setup(props, ctx) {
+        const state = reactive({
             userTitleInput: "",
             userTextInput: "",
-        };
-    },
-    methods: {
-    createPost() {
-        if (this.maxCharacters > 20) {
-            return; 
+        })
+
+        const maxCharacters = computed(() => state.userTextInput.length);
+
+        const createPost = () => {
+    
+            if(state.userTitleInput !== "" && state.userTextInput !=="") {
+                ctx.emit('add-post', state.userTitleInput, state.userTextInput)
+
+            state.userTitleInput = "";
+            state.userTextInput = "";
+            }
         }
 
-        if(this.userTitleInput !== "" && this.userTextInput !=="") {
-            this.$emit('add-post', this.userTitleInput, this.userTextInput)
+    return {
+        state,
+        maxCharacters,
+        createPost,
+    }
+}
 
-        this.userTitleInput = "";
-        this.userTextInput = "";
-        }
-    },
-},
-computed: {
-    maxCharacters() {
-        return this.userTextInput.length;
-    },
-  },
 };
 </script>
 
