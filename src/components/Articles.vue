@@ -10,24 +10,20 @@
         <h1 class="empty" v-else>Jelenleg nincsenek cikkek!</h1>
     </main>
     <aside>
-        <form @submit.prevent="createPost" :class="{ error: maxCharacters > 20 }">
-            <label for="title">A bejegyzés címe:</label>
-            <input v-model="userTitleInput" type="text" placeholder="írja ide a szöveget" id="title"/>
-            <label for="text">Fő szöveg:<span>{{ maxCharacters }} / 20</span>
-            </label>
-            <textarea v-model="userTextInput" id="text" placeholder="írja ide a szöveget"></textarea>
-            <button>Hozzáadás</button>        
-        </form>
+        <AddPost v-on:add-post="createPost"/>
     </aside>
 </template>
 
 <script>
+import AddPost from './AddPost.vue';
+
 export default {
     name: 'Articles',
+    components: {
+        AddPost,
+    },
     data() {
         return{
-            userTitleInput: "",
-            userTextInput: "",
         articles: [
             {
                 id: 1,
@@ -56,24 +52,14 @@ export default {
         deletePost(id) {
             this.articles = this.articles.filter((el) => el.id !== id)
         },
-    createPost() {
-        if(this.userTitleInput !== "" && this.userTextInput !=="") {
-            this.articles.unshift({
-                id: Math.random() * 1000,
-                title: this.userTitleInput,
-            text: this.userTextInput,
-        });
-
-        this.userTitleInput = "";
-        this.userTextInput = "";
-        }
+    createPost(userTitleInput, userTextInput) {
+         this.articles.unshift({
+            id: Math.random() * 1000,
+            title: userTitleInput,
+            text: userTextInput,
+        }); 
     },
-},
-computed: {
-    maxCharacters() {
-        return this.userTextInput.length;
     },
-  },
 };
 </script>
 
@@ -103,8 +89,7 @@ aside {
     width: 100%;
 }
 
-#articles .post button,
-aside form button {
+#articles .post button {
     float: right;
     background: #aaa771;
     border: 2px solid #5e5b21;
@@ -118,8 +103,7 @@ aside form button {
     transition: all 500ms ease;
 }
 
-#articles .post button:hover,
-aside form button:hover {
+#articles .post button:hover{
     margin-top: 2px;
     border-bottom-width: 2px;
 }
@@ -127,32 +111,6 @@ aside form button:hover {
 .empty {
     margin: 20px;
     color:#5e5b21
-}
-
-aside {
-    margin-top: 20px;    
-}
-
-aside form.error label {
-    color:rgb(210, 31, 31);
-}
-
-aside form label {
-    color: #505050;
-}
-
-aside form input,
-aside form textarea {
-    width: 100%;
-    background: #c6c391;
-    border-radius: 5px;
-    border: 2px solid #5e5b21;
-    padding: 8px 10px;
-    font-size: 14px;
-    color: #5e5b21;
-    outline: none;
-    margin-bottom: 10px;
-    resize: none;
 }
 
 </style>
